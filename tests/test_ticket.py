@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import redis_extensions as redis
+from pywe_component_ticket import ComponentTicket, get_component_verify_ticket, set_component_verify_ticket
 from pywe_storage import RedisStorage
 
 from local_wecfg_example import WECHAT
-from pywe_component_ticket import ComponentTicket, get_component_verify_ticket, set_component_verify_ticket
 
 
 class TestTicketCommands(object):
@@ -27,7 +27,7 @@ class TestTicketCommands(object):
         assert ticket == ticket1
 
         set_component_verify_ticket(appid=appid, secret=appsecret, token=token, encodingaeskey=encodingaeskey, post_data=None, encrypt=encrypt, msg_signature=msg_signature, timestamp=timestamp, nonce=nonce, storage=None)
-        ticket2 = get_component_verify_ticket()
+        ticket2 = get_component_verify_ticket(appid=appid, secret=appsecret, token=token, encodingaeskey=encodingaeskey, storage=None)
         assert ticket == ticket2
 
     def test_component_ticket_redis(self):
@@ -50,7 +50,6 @@ class TestTicketCommands(object):
         assert isinstance(ticket1, basestring)
         assert ticket == ticket1
 
-        set_component_verify_ticket(appid=appid, secret=appsecret, token=token, encodingaeskey=encodingaeskey, post_data=None, encrypt=encrypt, msg_signature=msg_signature, timestamp=timestamp,
-                                    nonce=nonce, storage=None)
-        ticket2 = get_component_verify_ticket()
+        set_component_verify_ticket(appid=appid, secret=appsecret, token=token, encodingaeskey=encodingaeskey, post_data=None, encrypt=encrypt, msg_signature=msg_signature, timestamp=timestamp, nonce=nonce, storage=storage)
+        ticket2 = get_component_verify_ticket(appid=appid, secret=appsecret, token=token, encodingaeskey=encodingaeskey, storage=storage)
         assert ticket == ticket2
